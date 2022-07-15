@@ -1,9 +1,14 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:learning/const.dart';
+//import 'package:learning/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:learning/functions.dart';
 
 
 
@@ -35,7 +40,6 @@ class _AuthorizationState extends State<Authorization> {
     getStorageData();
 
   }
-
   void getStorageData() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.getString('username')!=null){
@@ -45,22 +49,22 @@ class _AuthorizationState extends State<Authorization> {
       });
       loginFun();
     }
-
-
   }
 
   Future<void> loginFun() async{
     var docRef = FirebaseFirestore.instance.collection("users").doc(userNameController.text);
     docRef.get().then((doc) async {
-      print(doc.data()?.values.first);
+      //print(doc.data()?.values.first);
       if(doc.exists){
         if(doc.data()?.values.first == passwordController.text && passwordController.text.isNotEmpty){
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacementNamed(context, '/direct');
 
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('username', doc.data()?.values.last);
           prefs.setString('password', doc.data()?.values.first);
+          AuthConst.userName = doc.data()?.values.last;
+          AuthConst.password = doc.data()?.values.first;
 
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Incorrect password!')),);
@@ -72,10 +76,11 @@ class _AuthorizationState extends State<Authorization> {
         userNameController.text = '';
         passwordController.text = '';
       }
-      }).catchError((e){
-        print(e);
-      });
+    }).catchError((e){
+      throw Exception(e);
+    });
   }
+
 
 
   Future<void> registerFun() async{
@@ -105,7 +110,9 @@ class _AuthorizationState extends State<Authorization> {
 
 
       }
-    }).catchError((e){print(e);});
+    }).catchError((e){
+      throw Exception(e);
+    });
 
     // if(doc.exists){
     //   Navigator.pushReplacementNamed(context, '/home');
@@ -143,7 +150,7 @@ class _AuthorizationState extends State<Authorization> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
             child: Column(
               //mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -201,7 +208,7 @@ class _AuthorizationState extends State<Authorization> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(describeActionText, style: TextStyle(color: Colors.grey),),
+                    Text(describeActionText, style: const TextStyle(color: Colors.grey),),
                     TextButton(onPressed: (){
                       changeActionMethod();
 

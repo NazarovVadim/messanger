@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learning/pages/HomePage.dart';
+import 'package:learning/pages/Direct.dart';
 import 'package:learning/pages/Authorization.dart';
 import 'const.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +17,7 @@ void main(){
     initialRoute: "/",
     routes: {
       '/': (context) => const Authorization(),
-      '/home': (context) => const HomePage()
+      '/direct': (context) => const Direct()
     },
   ));
 }

@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:learning/const.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class Direct extends StatefulWidget {
+  const Direct({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Direct> createState() => _DirectState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _DirectState extends State<Direct> {
 
-  String userName= '';
+  String userName= AuthConst.userName;
 
   @override
-  // ignore: must_call_super
   void initState(){
     super.initState();
-    getUser();
+
   }
 
-  void getUser() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userName= prefs.getString('username');
-  }
+
 
   @override
   Widget build(BuildContext context) {
