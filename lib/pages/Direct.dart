@@ -71,29 +71,19 @@ class _DirectState extends State<Direct> {
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: Column(
-          children: [
-            Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const <Widget>[
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 60.0,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.blue,
-                        radius: 40.0,
-                      ),
-                    ),
-                    title: Text('User nickname'),
-                    subtitle: Text('Message'),
-                  ),
-                ],
-              )
+          children: const [
 
-
-            )
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        onPressed: () {
+          Navigator.pushNamedAndRemoveUntil(context, '/newMessage', (route) => true);
+        },
+        child: const Icon(
+          Icons.message_outlined,
+          color: Colors.white,
         ),
       ),
     );

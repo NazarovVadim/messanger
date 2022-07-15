@@ -72,7 +72,7 @@ class _AuthorizationState extends State<Authorization> {
 
         }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Username is not defined')),);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Username is not available')),);
         userNameController.text = '';
         passwordController.text = '';
       }
