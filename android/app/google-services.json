@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "697104848585",
+    "project_id": "messanger-8db29",
+    "storage_bucket": "messanger-8db29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697104848585:android:e9b14792519b4127081f18",
+        "android_client_info": {
+          "package_name": "com.example.learning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697104848585-1gcupkvcb4ig7covflqtdpueit356h0k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi42gs-8Wi-65gZUks2FtPCsORGO8tFO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697104848585-1gcupkvcb4ig7covflqtdpueit356h0k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
