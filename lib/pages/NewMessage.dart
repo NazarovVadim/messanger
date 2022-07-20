@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'const.dart';
+import 'MessagePage.dart';
 
 
 
@@ -22,34 +23,12 @@ class NewMessage extends StatefulWidget {
 
 class _NewMessageState extends State<NewMessage> {
 
-  late List users = [];
-
-
   @override
   void initState(){
     super.initState();
-     //getUsers();
-    // print(users);
+
   }
 
-  void getUsers() async{
-    List b = [];
-    print(FirebaseFirestore.instance.collection('items').snapshots());
-    FirebaseFirestore.instance.collection('users').get().then((value){
-      //var a = value.docs.map(doc => doc.data());
-
-      var a = value.docs.map((e) => e.data()); //  все пользователи
-
-      a.forEach((element) {
-        String currentName = element["user"];
-
-        if(currentName != AuthConst.userName){
-          users.add(currentName);
-        }
-      });
-
-    });
-  }
 
 
   @override
@@ -62,12 +41,11 @@ class _NewMessageState extends State<NewMessage> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('users').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-           if(!snapshot.hasData) return const Text('No users');
-           print(snapshot.data!.docs);
+           if(!snapshot.hasData) return const Center(child: CircularProgressIndicator(),);
            return ListView.builder(
              itemCount: snapshot.data!.docs.length,
              itemBuilder: (BuildContext context, int index){
-               if(snapshot.data!.docs[index].get('user') != AuthConst.userName){
+               if(snapshot.data!.docs[index].get('user') != AuthConst.userName && !MessageUser.dialogs.contains(snapshot.data!.docs[index].get('user'))){
                  return  Card(
                      child: Column(
                        mainAxisSize: MainAxisSize.max,
@@ -82,15 +60,22 @@ class _NewMessageState extends State<NewMessage> {
 
                                color: Colors.white.withOpacity(0.7),
                              ),
+
                            ),
                            title: Text(snapshot.data!.docs[index].get('user')),
                            subtitle: Text('Message'),
+                           onTap: (){
+                             MessageUser.targetUser = snapshot.data!.docs[index].get('user');
+                              Navigator.push(context,  MaterialPageRoute( builder: (context) => const MessagePage(),));
+                           },
                          ),
                        ],
                      )
                  );
                }
-               else return const Padding(padding: EdgeInsets.zero);
+               else {
+                 return const Padding(padding: EdgeInsets.zero);
+               }
 
              },
            );

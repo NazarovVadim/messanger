@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:learning/const.dart';
 
+import 'MessagePage.dart';
+
 class Direct extends StatefulWidget {
   const Direct({Key? key}) : super(key: key);
 
@@ -14,6 +16,7 @@ class Direct extends StatefulWidget {
 class _DirectState extends State<Direct> {
 
   String userName= AuthConst.userName;
+  var dialogsName = [];
 
   @override
   void initState(){
@@ -21,7 +24,24 @@ class _DirectState extends State<Direct> {
 
   }
 
+  int countOfUsers(var docs){
+    int res = 0;
 
+    docs.forEach((el) async{
+      if((el.get('recipient') == AuthConst.userName || el.get('sender') == AuthConst.userName)) {
+        String name = el.get('recipient') ==
+            AuthConst.userName ? el.get('sender')
+            : el.get('recipient');
+        if (!dialogsName.contains(name)) {
+          dialogsName.add(name);
+          MessageUser.dialogs.add(name);
+          res++;
+        }
+      }
+    });
+    return res;
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +88,50 @@ class _DirectState extends State<Direct> {
           ],
         ),
       ),
-      body: SafeArea(
-        maintainBottomViewPadding: true,
-        child: Column(
-          children: const [
+      body: StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('messages').snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                //print(FirebaseFirestore.instance.collection('messages').snapshots());
 
-          ],
-        ),
-      ),
+                if(!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator(),);
+                } else {
+                  var len = countOfUsers(snapshot.data!.docs);
+                  return ListView.builder(
+                      itemCount: len,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index){
+                        // String name = snapshot.data!.docs[index].get('recipient') == AuthConst.userName ? snapshot.data!.docs[index].get('sender')
+                        //               : snapshot.data!.docs[index].get('recipient');
+
+                        return Card(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.blue,
+                              radius: 40.0,
+                              child: Icon(
+                                Icons.account_circle_outlined,
+                                size: 40,
+
+                                color: Colors.white.withOpacity(0.7),
+                              ),
+
+                            ),
+                            title: Text(dialogsName[index]),
+                            subtitle: Text('Message'),
+                            onTap: (){
+                              MessageUser.targetUser = dialogsName[index];
+                              Navigator.push(context,  MaterialPageRoute( builder: (context) => const MessagePage(),));
+                            },
+                          ),
+                        );
+                      }
+                  );
+                }
+
+              }
+
+            ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: () {

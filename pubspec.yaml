@@ -39,6 +39,9 @@ dependencies:
 dev_dependencies:
   cloud_firestore:
   firebase_core:
+#  firebase_auth:
+#  google_sign_in:
+#  firebase_dynamic_links: ^0.5.1
   flutter_test:
     sdk: flutter
 

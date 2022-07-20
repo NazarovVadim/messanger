@@ -19,7 +19,7 @@ void main(){
     routes: {
       '/': (context) => const Authorization(),
       '/direct': (context) => const Direct(),
-      '/newMessage': (context) => const NewMessage()
+      '/newMessage': (context) => const NewMessage(),
     },
   ));
 }

@@ -5,4 +5,9 @@ class AuthConst{
   static String password = '';
 }
 
+class MessageUser{
+  static String targetUser = '';
+  static var dialogs = [];
+}
+
 

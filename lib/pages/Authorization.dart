@@ -8,6 +8,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:learning/const.dart';
 //import 'package:learning/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:google_sign_in/google_sign_in.dart';
+
 //import 'package:learning/functions.dart';
 
 
@@ -28,7 +31,8 @@ class _AuthorizationState extends State<Authorization> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  // final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  // final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
@@ -50,7 +54,25 @@ class _AuthorizationState extends State<Authorization> {
       loginFun();
     }
   }
-
+  // void checkIsUserExist() async{
+  //   FirebaseUser user = await FirebaseAuth.instance.currentUser();
+  //   if (user != null) {
+  //     final uid = user.uid;
+  //     print("user exist end uid = " + uid);
+  //   } else {
+  //     print("user not exist");
+  //   }
+  // }
+  // void signOut() async {
+  //   FirebaseAuth.instance.signOut();
+  //   FirebaseUser user = await firebaseAuth.currentUser();
+  //   if (user != null) {
+  //     final uid = user.uid;
+  //     print("user exist end uid = " + uid);
+  //   } else {
+  //     print("user not exist");
+  //   }
+  // }
   Future<void> loginFun() async{
     var docRef = FirebaseFirestore.instance.collection("users").doc(userNameController.text);
     docRef.get().then((doc) async {
